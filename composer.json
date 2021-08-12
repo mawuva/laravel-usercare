@@ -1,0 +1,54 @@
+{
+    "name": "mawuekom/laravel-usercare",
+    "description": "A Users Management Package that includes many features arround user",
+    "keywords": [
+        "mawuekom",
+        "laravel-usercare"
+    ],
+    "homepage": "https://github.com/mawuekom/laravel-usercare",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Ephraïm Seddor",
+            "email": "seddorephraim7@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mawuekom\\LaravelUsercare\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mawuekom\\LaravelUsercare\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mawuekom\\LaravelUsercare\\LaravelUsercareServiceProvider"
+            ],
+            "aliases": {
+                "LaravelUsercare": "Mawuekom\\LaravelUsercare\\LaravelUsercareFacade"
+            }
+        }
+    }
+}
