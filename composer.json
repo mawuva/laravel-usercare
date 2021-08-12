@@ -5,7 +5,7 @@
         "mawuekom",
         "laravel-usercare"
     ],
-    "homepage": "https://github.com/mawuekom/laravel-usercare",
+    "homepage": "https://github.com/mawuva/laravel-usercare",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Mawuekom\\LaravelUsercare\\": "src"
+            "Mawuekom\\Usercare\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mawuekom\\LaravelUsercare\\Tests\\": "tests"
+            "Mawuekom\\Usercare\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -44,10 +44,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mawuekom\\LaravelUsercare\\LaravelUsercareServiceProvider"
+                "Mawuekom\\Usercare\\UsercareServiceProvider"
             ],
             "aliases": {
-                "LaravelUsercare": "Mawuekom\\LaravelUsercare\\LaravelUsercareFacade"
+                "Usercare": "Mawuekom\\Usercare\\UsercareFacade"
             }
         }
     }

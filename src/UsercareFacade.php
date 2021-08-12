@@ -1,13 +1,13 @@
 <?php
 
-namespace Mawuekom\LaravelUsercare;
+namespace Mawuekom\Usercare;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Mawuekom\LaravelUsercare\Skeleton\SkeletonClass
+ * @see \Mawuekom\Usercare\Skeleton\SkeletonClass
  */
-class LaravelUsercareFacade extends Facade
+class UsercareFacade extends Facade
 {
     /**
      * Get the registered name of the component.
