@@ -27,10 +27,10 @@ class UpdateAccountTypeRequest extends FormRequestCustomizer
      */
     public function rules(): array
     {
-        $accountTypeTable           = config('userly.account_type.table.name');
-        $accountTypeTablePrimaryKey = config('userly.account_type.table.primary_key');
+        $accountTypeTable           = config('usercare.account_type.table.name');
+        $accountTypeTablePrimaryKey = config('usercare.account_type.table.primary_key');
 
-        $resource = config('userly.account_type.resource_name');
+        $resource = config('usercare.account_type.resource_name');
         $accountType = $this ->validateAndGetResourceById($this ->route('id'), $resource);
 
         return [
