@@ -65,18 +65,8 @@ return [
     ],
 
     'password_history' => [
-        'enable'                    => true,
-        'model'                     => null,
         'checker'                   => false,
         'number_to_check'           => 3,
-        'name'                      => 'Password History',
-        'resource_name'             => 'password_history',
-
-        'table'                     => [
-            'name'                  => env('USERCARE_PASSWORD_HISTORIES_DATABASE_TABLE', 'password_histories'),
-            'primary_key'           => env('USERCARE_PASSWORD_HISTORIES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
-            'user_foreign_key'      => env('USERCARE_PASSWORD_HISTORIES_DATABASE_TABLE_USER_FOREIGN_KEY', 'user_id'),
-        ],
     ],
 
     /*
@@ -88,8 +78,8 @@ return [
     'enable' => [
         'proper_names'          => true,
         'email_optionality'     => false,
-        'phone_number'          => false,
-        'gender'                => false,
+        'phone_number'          => true,
+        'gender'                => true,
     ],
 
     /*

@@ -21,6 +21,7 @@
         "illuminate/support": "^8.0",
         "illuminate/database": "^8.0",
         "illuminate/http": "^8.0",
+        "illuminate/validation": "^8.0",
         "mawuekom/laravel-model-uuid": "^2.0",
         "mawuekom/laravel-repository-layer": "^1.1",
         "mawuekom/laravel-request-customizer": "^1.1",
