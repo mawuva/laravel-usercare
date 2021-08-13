@@ -2,14 +2,93 @@
 
 namespace Mawuekom\Usercare\Traits;
 
+use Exception;
+use Illuminate\Http\Response;
 use Mawuekom\ModelUuid\Utils\ValidatesUuid;
 use Mawuekom\RepositoryLayer\BaseApiRepository;
+use Mawuekom\Usercare\Traits\DataRecordsChecker;
 use RuntimeException;
 
 trait ResourceDataManager
 {
-    use ValidatesUuid;
+    use ValidatesUuid, DataRecordsChecker;
 
+    /**
+     * Validate and get resource by ID
+     * 
+     * @param int|string $id
+     * @param string $resource
+     * @param boolean $inTrashed
+     * 
+     * @throws \App\Exceptions\ResourceNotFoundException
+     * 
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function validateAndGetResourceById(int|string $id, string $resource = null, $inTrashed = false)
+    {
+        $resourceKey = resolve_key($resource, $id, $inTrashed);
+        $data = $this->getResourceItemBy([$resourceKey => $id], $resource, $inTrashed);
+
+        $this ->checkDataResource($data, trans('usercare::messages.resource.not_found'));
+
+        return $data;
+    }
+
+    /**
+     * Validate and get resource by Slug
+     * 
+     * @param string $slug
+     * @param string $resource
+     * @param boolean $inTrashed
+     * 
+     * @throws \App\Exceptions\ResourceNotFoundException
+     * 
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function validateAndGetResourceBySlug(string $slug, string $resource = null, $inTrashed = false)
+    {
+        $data = $this->getResourceItemBy(['slug' => $slug], $resource, $inTrashed);
+
+        $this ->checkDataResource($data, trans('usercare::messages.resource.not_found'));
+
+        return $data;
+    }
+    
+    /**
+     * Validate slug
+     * 
+     * @param string $resource
+     * @param string $slug
+     * @param int|string $id
+     * 
+     * @return void
+     */
+    public function validateSlug(string $slug, string $resource = null, int|string $id = null)
+    {
+        $resourceKey = resolve_key($resource, $id);
+        $data = $this->getResourceItemBy(['slug' => $slug], $resource);
+
+        if ($data !== null) {
+            if (is_null($id)) {
+                throw new Exception(
+                    trans('usercare::messages.attribute_already_exists', [
+                        'attribute' => trans('usercare::entity.attributes.slug')
+                    ]), Response::HTTP_CONFLICT
+                );
+            }
+
+            else {
+                if (!is_null($id) && $data ->{$resourceKey} !== $id) {
+                    throw new Exception(
+                        trans('usercare::messages.attribute_already_exists', [
+                            'attribute' => trans('usercare::entity.attributes.slug')
+                        ]), Response::HTTP_CONFLICT
+                    );
+                }
+            }
+        }
+    }
+    
     /**
      * Get resource item by...
      *
@@ -70,7 +149,7 @@ trait ResourceDataManager
      */
     protected function getModelRepo(string $entity = null)
     {
-        $model = config('userly.'.$this->resolveEntity($entity).'.model');
+        $model = config('usercare.'.$this->resolveEntity($entity).'.model');
 
         return (property_exists($this, 'repository'))
                 ? $this ->repository

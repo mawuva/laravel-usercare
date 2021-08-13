@@ -42,10 +42,11 @@ interface AccountTypeManager
      * Search account type 
      * 
      * @param string $searchTerm
+     * @param boolean $paginate
      * 
      * @return array
      */
-    public function searchAccountTypes(string $searchTerm): array;
+    public function searchAccountTypes(string $searchTerm, $paginate = false): array;
 
     /**
      * Get account type by ID

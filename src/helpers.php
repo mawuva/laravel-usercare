@@ -214,3 +214,23 @@ if ( ! function_exists('failure_response')) {
         ];
     }
 }
+
+if ( ! function_exists('check_key_in_array')) {
+    /**
+     * Chef if a key exists in array
+     *
+     * @param array $array
+     * @param string $key
+     * 
+     * @return string
+     */
+    function check_key_in_array(array $array = [], string $key = '') {
+        if (is_array($array) && !empty($key)) {
+            if (key_exists($key, $array)) {
+                if ($array[$key] != null) {
+                    return $array[$key];
+                }
+            }
+        }
+    }
+}
