@@ -1,10 +1,6 @@
-# Very short description of the package
+# Usercase - A Users Management Package that includes many features arround user
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mawuekom/laravel-usercare.svg?style=flat-square)](https://packagist.org/packages/mawuekom/laravel-usercare)
-[![Total Downloads](https://img.shields.io/packagist/dt/mawuekom/laravel-usercare.svg?style=flat-square)](https://packagist.org/packages/mawuekom/laravel-usercare)
-![GitHub Actions](https://github.com/mawuekom/laravel-usercare/actions/workflows/main.yml/badge.svg)
-
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+This package provide a bunch of features that will help implement users management in your laravel project.
 
 ## Installation
 
@@ -16,9 +12,140 @@ composer require mawuekom/laravel-usercare
 
 ## Usage
 
+Once install, go to `config/app.php` to add `UsercareServiceProvider` in providers array
+
+ Laravel 5.5 and up Uses package auto discovery feature, no need to edit the `config/app.php` file.
+
+ - #### Service Provider
+
 ```php
-// Usage description here
+'providers' => [
+
+    ...
+
+    Mawuekom\Usercare\UsercareServiceProvider::class,
+
+],
 ```
+
+- #### Publish Assets
+
+```bash
+php artisan vendor:publish --tag=usercare
+```
+
+Or you can publish config
+
+```bash
+php artisan vendor:publish --tag=usercare --config
+```
+
+#### Configuration
+
+* You can change connection for models, models path and there is also a handy pretend feature.
+* There are many configurable options which have been extended to be able to configured via `.env` file variables.
+* Editing the configuration file directly may not needed because of this.
+* See config file: [usercare.php](https://github.com/mawuva/laravel-usercare/blob/main/config/usercare.php).
+
+```php
+<?php
+
+/*
+ * You can place your custom package configuration in here.
+ */
+return [
+    'separator' => '.',
+
+    /*
+    |--------------------------------------------------------------------------
+    | USERCARE feature settings
+    |--------------------------------------------------------------------------
+    */
+
+    'account_type' => [
+        'enable'                    => true,
+        'name'                      => 'Account Type',
+        'resource_name'             => 'account_type',
+        'model'                     => null,
+
+        'table'                     => [
+            'name'                  => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE', 'account_types'),
+            'primary_key'           => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
+        ],
+    ],
+
+    'user' => [
+        'model'                     => App\Models\User::class,
+        'name'                      => 'User',
+        'resource_name'             => 'user',
+
+        'table'                     => [
+            'name'                      => env('USERCARE_USERS_DATABASE_TABLE', 'users'),
+            'primary_key'               => env('USERCARE_USERS_DATABASE_TABLE_PRIMARY_KEY', 'id'),
+            'account_type_foreign_key'  => env('USERCARE_USERS_DATABASE_TABLE_ACCOUNT_TYPE_FOREIGN_KEY', 'account_type_id'),
+        ],
+    ],
+
+    'user_profile' => [
+        'enable'                    => true,
+        'model'                     => null,
+
+        'table'                     => [
+            'name'                      => env('USERCARE_PROFILES_DATABASE_TABLE', 'profiles'),
+            'primary_key'               => env('USERCARE_PROFILES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
+            'user_foreign_key'          => env('USERCARE_PROFILES_DATABASE_TABLE_USER_FOREIGN_KEY', 'user_id'),
+        ],
+    ],
+
+    'user_profile_picture'          => [
+        'enable'                    => true,
+        'model'                     => null,
+
+        'table'                     => [
+            'name'                      => env('USERCARE_PROFILE_PICTURES_DATABASE_TABLE', 'profile_pictures'),
+            'primary_key'               => env('USERCARE_PROFILE_PICTURES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
+            'user_foreign_key'          => env('USERCARE_PROFILE_PICTURES_DATABASE_TABLE_USER_FOREIGN_KEY', 'user_id'),
+        ],
+
+        'default'                   => [
+            'file_source_url'       => url('/'),
+            'avatar'                => asset('/'), // asset('default-avatar.png')
+            'bg_picture'            => asset('/'), // asset('default-bg-picture.png')
+        ],
+    ],
+
+    'password_history' => [
+        'checker'                   => false,
+        'number_to_check'           => 3,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bunch of features to enable or disable.
+    |--------------------------------------------------------------------------
+    */
+
+    'enable' => [
+        'proper_names'          => true,
+        'email_optionality'     => false,
+        'phone_number'          => true,
+        'gender'                => true,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Add uuid support
+    |--------------------------------------------------------------------------
+    */
+
+    'uuids' => [
+        'enable' => true,
+        'column' => '_id'
+    ],
+];
+```
+
+## The rest is coming soon
 
 ### Testing
 
@@ -34,19 +161,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
-
-If you discover any security related issues, please email seddorephraim7@gmail.com instead of using the issue tracker.
-
-## Credits
-
--   [Ephraïm Seddor](https://github.com/mawuekom)
--   [All Contributors](../../contributors)
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
