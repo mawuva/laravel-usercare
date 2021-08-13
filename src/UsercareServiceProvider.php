@@ -11,12 +11,14 @@ class UsercareServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        require_once __DIR__.'/helpers.php';
+
         /*
          * Optional methods to load your package assets
          */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'usercare');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'usercare');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'usercare');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
