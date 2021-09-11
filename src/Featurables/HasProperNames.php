@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Userly\Featurables;
+namespace Mawuekom\Usercare\Featurables;
 
 trait HasProperNames
 {
