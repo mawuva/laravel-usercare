@@ -31,13 +31,13 @@ Once install, go to `config/app.php` to add `UsercareServiceProvider` in provide
 - #### Publish Assets
 
 ```bash
-php artisan vendor:publish --tag=usercare
+php artisan vendor:publish --provider="Mawuekom\Usercare\UsercareServiceProvider"
 ```
 
 Or you can publish config
 
 ```bash
-php artisan vendor:publish --tag=usercare --config
+php artisan vendor:publish --provider="Mawuekom\Usercare\UsercareServiceProvider" --tag="config"
 ```
 
 #### Configuration
