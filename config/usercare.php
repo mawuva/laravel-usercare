@@ -58,9 +58,9 @@ return [
         ],
 
         'default'                   => [
-            'file_source_url'       => url('/'),
-            'avatar'                => asset('/'), // asset('default-avatar.png')
-            'bg_picture'            => asset('/'), // asset('default-bg-picture.png')
+            'file_source_url'       => env('APP_URL'),
+            'avatar'                => env('APP_URL'), // asset('default-avatar.png')
+            'bg_picture'            => env('APP_URL'), // asset('default-bg-picture.png')
         ],
     ],
 
@@ -77,9 +77,12 @@ return [
 
     'enable' => [
         'proper_names'          => true,
-        'email_optionality'     => false,
         'phone_number'          => true,
         'gender'                => true,
+        'optional'              => [
+            'email'             => false,
+            'password'          => true,
+        ],
     ],
 
     /*

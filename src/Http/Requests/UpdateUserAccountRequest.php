@@ -34,7 +34,7 @@ class UpdateUserAccountRequest extends FormRequestCustomizer
         $users_table = config('usercare.user.table.name');
         $users_table_pk = config('usercare.user.table.primary_key');
 
-        $email_is_optional = config('usercare.user.email_is_optional');
+        $email_is_optional = config('usercare.enable.optional.email');
 
         $proper_names_rules = (proper_names_is_enabled_and_exists())
                                 ? ['last_name' => 'required|string', 'first_name' => 'required|string']

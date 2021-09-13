@@ -14,14 +14,11 @@ class AddProperNamesColumnsToUsersTable extends Migration
     public function up()
     {
         $table = config('usercare.user.table.name');
-        $proper_names_enabled = config('usercare.proper_names.enable');
 
-        if ($proper_names_enabled) {
+        if (proper_names_is_enabled_and_does_not_exist()) {
             Schema::table($table, function (Blueprint $table) {
-                if (!schema_has_proper_names_columns()) {
-                    $table->string('last_name') ->nullable() ->after('name');
-                    $table->string('first_name') ->nullable() ->after('last_name');
-                }
+                $table->string('last_name') ->nullable() ->after('name');
+                $table->string('first_name') ->nullable() ->after('last_name');
             });
         }
     }

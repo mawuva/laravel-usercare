@@ -29,10 +29,10 @@ class CreateUserAccountRequest extends FormRequestCustomizer
     public function rules(): array
     {
         $users_table = config('usercare.user.table.name');
-        $email_is_optional = config('usercare.user.email_is_optional');
+        $email_is_optional = config('usercare.enable.optional.email');
 
         $proper_names_rules = (proper_names_is_enabled_and_exists())
-                                ? ['last_name' => 'required|string', 'first_name' => 'required|string']
+                                ? ['last_name' => 'string', 'first_name' => 'string']
                                 : [];
 
         $email_rules = ($email_is_optional)
@@ -50,7 +50,7 @@ class CreateUserAccountRequest extends FormRequestCustomizer
         return array_merge([
             'name'              => 'string|unique:'.$users_table,
             'gender'            => 'string',
-            'password'          => 'required|string|min:6|confirmed',
+            'password'          => 'string|min:6|confirmed',
         ], $email_rules, $phone_number_rules, $proper_names_rules, $account_type_rules);
     }
 

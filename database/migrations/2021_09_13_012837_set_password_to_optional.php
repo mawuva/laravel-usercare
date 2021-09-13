@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class SetEmailToOptional extends Migration
+class SetPasswordToOptional extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class SetEmailToOptional extends Migration
     public function up()
     {
         $table =config('usercare.user.table.name');
-        $email_is_optional = config('usercare.enable.optional.email');
+        $password_is_optional = config('usercare.enable.optional.password');
 
-        if ($email_is_optional) {
+        if ($password_is_optional) {
             Schema::table($table, function (Blueprint $table) {
-                $table->string('email')->nullable()->change();
+                $table->string('password')->nullable()->change();
             });
         }
     }
