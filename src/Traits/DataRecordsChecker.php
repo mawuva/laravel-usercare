@@ -31,7 +31,7 @@ trait DataRecordsChecker
     /**
      * Check if the given records or collection contains data or not
      *
-     * @param [type] $records
+     * @param [type] $record
      * @param string $message
      * @param int $code
      * @param bool $exception
@@ -40,7 +40,7 @@ trait DataRecordsChecker
      *
      * @return array
      */
-    public function checkDataRecords($records, string $message, int $code = Response::HTTP_NO_CONTENT, $exception = false): array
+    public function checkDataRecords($records, string $message, int $code = Response::HTTP_NO_CONTENT, $exception = false)
     {
         if ($records ->count() === 0) {
             if ($exception) {
