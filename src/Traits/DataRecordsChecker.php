@@ -17,7 +17,7 @@ trait DataRecordsChecker
      *
      * @return array
      */
-    public function checkDataResource($resource, string $message, int $code = Response::HTTP_NOT_FOUND, $exception = false): array
+    public function checkDataResource($resource, string $message, int $code = Response::HTTP_NOT_FOUND, $exception = false)
     {
         if (is_null($resource)) {
             if ($exception) {
@@ -42,7 +42,7 @@ trait DataRecordsChecker
      */
     public function checkDataRecords($records, string $message, int $code = Response::HTTP_NO_CONTENT, $exception = false): array
     {
-        if ($records ->count() !== 0) {
+        if ($records ->count() === 0) {
             if ($exception) {
                 throw new Exception($message, $code);
             }

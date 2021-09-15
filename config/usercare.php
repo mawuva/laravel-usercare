@@ -16,7 +16,7 @@ return [
         'enable'                    => true,
         'name'                      => 'Account Type',
         'resource_name'             => 'account_type',
-        'model'                     => null,
+        'model'                     => Mawuekom\Usercare\Models\AccountType::class,
 
         'table'                     => [
             'name'                  => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE', 'account_types'),
