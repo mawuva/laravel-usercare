@@ -18,15 +18,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "doctrine/dbal": "^3.1",
-        "illuminate/support": "^8.0",
-        "illuminate/database": "^8.0",
-        "illuminate/http": "^8.0",
-        "illuminate/validation": "^8.0",
-        "mawuekom/laravel-model-uuid": "^2.0",
-        "mawuekom/laravel-repository-layer": "^1.1",
-        "mawuekom/laravel-request-customizer": "^1.1",
-        "mawuekom/laravel-password-history": "^1.3",
-        "mawuekom/laravel-api-resource-links": "^1.1"
+        "illuminate/support": "^8.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
