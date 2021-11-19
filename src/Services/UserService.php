@@ -67,11 +67,11 @@ class UserService
      * 
      * @return array
      */
-    public function getWithTrashed($paginate = true)
+    public function getWithTrashed($paginate = true, $columns = ['*'])
     {
         $data = $this ->userRepository ->withTrashed();
 
-        $results = ($paginate) ? $data ->paginate() : $data ->get();
+        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
 
         if ($results ->count() > 0) {
             return success_response(
@@ -93,11 +93,11 @@ class UserService
      * 
      * @return array
      */
-    public function getWithoutTrashed($paginate = true)
+    public function getWithoutTrashed($paginate = true, $columns = ['*'])
     {
         $data = $this ->userRepository;
 
-        $results = ($paginate) ? $data ->paginate() : $data ->all();
+        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->all($columns);
 
         if ($results ->count() > 0) {
             return success_response(trans('lang-resources::messages.entity.list', [
@@ -118,11 +118,11 @@ class UserService
      * 
      * @return array
      */
-    public function getOnlyTrashed($paginate = true)
+    public function getOnlyTrashed($paginate = true, $columns = ['*'])
     {
         $data = $this ->userRepository ->onlyTrashed();
 
-        $results = ($paginate) ? $data ->paginate() : $data ->get();
+        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
 
         if ($results ->count() > 0) {
             return success_response(trans('lang-resources::messages.entity.deleted_list', [
@@ -144,9 +144,9 @@ class UserService
      * 
      * @return array
      */
-    public function search(string $searchTerm, $paginate = true)
+    public function search(string $searchTerm, $paginate = true, $columns = ['*'])
     {
-        $data = $this ->userRepository ->search($searchTerm);
+        $data = $this ->userRepository ->search($searchTerm, $columns);
 
         $results = ($paginate) ? $data ->paginate() : $data;
 
