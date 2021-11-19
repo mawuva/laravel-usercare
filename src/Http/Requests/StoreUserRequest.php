@@ -52,10 +52,10 @@ class StoreUserRequest extends FormRequestCustomizer
                 'required', 'string', 'email', Rule::unique($usersTable, 'email')
             ],
             
-            'password'      => 'string|min:6|confirmed',
-            'first_name'    => 'string|nullable',
-            'phone_number'  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
-            'gender'        => 'string|nullable',
+            'password'                      => 'string|min:6|confirmed',
+            'first_name'                    => 'string|nullable',
+            'phone_number'                  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
+            'agree_with_policy_and_terms'   => 'string|nullable',
         ];
 
         (!get_attribute('name', 'optional'))
@@ -92,12 +92,12 @@ class StoreUserRequest extends FormRequestCustomizer
     public function toDTO(): StoreUserDTO
     {
         return new StoreUserDTO([
-            'name'          => $this ->name,
-            'email'         => $this ->email,
-            'password'      => $this ->password,
-            'first_name'    => $this ->first_name,
-            'phone_number'  => $this ->phone_number,
-            'gender'        => $this ->gender,
+            'name'                          => $this ->name,
+            'email'                         => $this ->email,
+            'password'                      => $this ->password,
+            'first_name'                    => $this ->first_name,
+            'phone_number'                  => $this ->phone_number,
+            'agree_with_policy_and_terms'   => $this ->agree_with_policy_and_terms,
         ]);
     }
 
