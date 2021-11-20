@@ -3,9 +3,9 @@
 namespace Mawuekom\Usercare\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use Mawuekom\CustomUser\DataTransferObjects\UpdateUserDTO;
 use Mawuekom\RequestCustomizer\FormRequestCustomizer;
 use Mawuekom\RequestSanitizer\Sanitizers\CapitalizeEachWords;
+use Mawuekom\Usercare\DataTransferObjects\UpdateUserDataDTO;
 use Mawuekom\Usercare\Services\UserService;
 
 class UpdateUserRequest extends FormRequestCustomizer
@@ -58,6 +58,7 @@ class UpdateUserRequest extends FormRequestCustomizer
             'first_name'    => 'string|nullable',
             'phone_number'  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'gender'        => 'string|nullable',
+            'account_type'  => 'integer|nullable',
         ];
 
         (!get_attribute('name', 'optional'))
@@ -89,16 +90,17 @@ class UpdateUserRequest extends FormRequestCustomizer
     /**
      * Build and return a DTO
      *
-     * @return \Mawuekom\CustomUser\DataTransferObjects\UpdateUserDTO
+     * @return \Mawuekom\Usercare\DataTransferObjects\UpdateUserDataDTO;
      */
-    public function toDTO(): UpdateUserDTO
+    public function toDTO(): UpdateUserDataDTO
     {
-        return new UpdateUserDTO([
+        return new UpdateUserDataDTO([
             'name'          => $this ->name,
             'email'         => $this ->email,
             'first_name'    => $this ->first_name,
             'phone_number'  => $this ->phone_number,
             'gender'        => $this ->gender,
+            'account_type'  => $this ->account_type,
         ]);
     }
 

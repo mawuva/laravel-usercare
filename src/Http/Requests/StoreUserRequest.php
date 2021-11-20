@@ -3,9 +3,9 @@
 namespace Mawuekom\Usercare\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use Mawuekom\CustomUser\DataTransferObjects\StoreUserDTO;
 use Mawuekom\RequestCustomizer\FormRequestCustomizer;
 use Mawuekom\RequestSanitizer\Sanitizers\CapitalizeEachWords;
+use Mawuekom\Usercare\DataTransferObjects\CreateUserDTO;
 use Mawuekom\Usercare\Services\UserService;
 
 class StoreUserRequest extends FormRequestCustomizer
@@ -56,6 +56,7 @@ class StoreUserRequest extends FormRequestCustomizer
             'first_name'                    => 'string|nullable',
             'phone_number'                  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'agree_with_policy_and_terms'   => 'string|nullable',
+            'account_type'                  => 'integer|nullable',
         ];
 
         (!get_attribute('name', 'optional'))
@@ -87,17 +88,17 @@ class StoreUserRequest extends FormRequestCustomizer
     /**
      * Build and return a DTO
      *
-     * @return \Mawuekom\CustomUser\DataTransferObjects\StoreUserDTO
+     * @return \Mawuekom\CustomUser\DataTransferObjects\StoreUserDTO|Mawuekom\Usercare\DataTransferObjects\CreateUserDTO
      */
-    public function toDTO(): StoreUserDTO
+    public function toDTO(): CreateUserDTO
     {
-        return new StoreUserDTO([
-            'name'                          => $this ->name,
-            'email'                         => $this ->email,
-            'password'                      => $this ->password,
-            'first_name'                    => $this ->first_name,
-            'phone_number'                  => $this ->phone_number,
-            'agree_with_policy_and_terms'   => $this ->agree_with_policy_and_terms,
+        return new CreateUserDTO([
+            'name'          => $this ->name,
+            'email'         => $this ->email,
+            'first_name'    => $this ->first_name,
+            'phone_number'  => $this ->phone_number,
+            'gender'        => $this ->gender,
+            'account_type'  => $this ->account_type,
         ]);
     }
 
