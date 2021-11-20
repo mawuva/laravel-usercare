@@ -45,7 +45,7 @@ class UpdateUserRequest extends FormRequestCustomizer
     {
         $usersTable = config('custom-user.user.table.name');
         $userIDRouteParam = $this ->route(config('usercare.user.id_route_param'));
-        $key = resolve_key(config('custom-user.user.slug'), $userIDRouteParam);
+        $key = resolve_key('custom-user', config('custom-user.user.slug'), $userIDRouteParam);
 
         $rules = [
             'name'                          => ['string'],
@@ -55,7 +55,6 @@ class UpdateUserRequest extends FormRequestCustomizer
                 Rule::unique($usersTable, 'email') ->ignore($userIDRouteParam, $key)
             ],
             
-            'password'      => 'string|min:6|confirmed',
             'first_name'    => 'string|nullable',
             'phone_number'  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'gender'        => 'string|nullable',
@@ -97,7 +96,6 @@ class UpdateUserRequest extends FormRequestCustomizer
         return new UpdateUserDTO([
             'name'          => $this ->name,
             'email'         => $this ->email,
-            'password'      => $this ->password,
             'first_name'    => $this ->first_name,
             'phone_number'  => $this ->phone_number,
             'gender'        => $this ->gender,
