@@ -56,6 +56,11 @@ return [
         'slug'              => 'account_type',
         'model'             => Mawuekom\Usercare\Models\AccountType::class,
 
+        /*
+        | The name of the parameter you set in your web.php or api.php to get account type's ID
+        */
+        'id_route_param'    => 'id',
+
         'table'             => [
             'name'          => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE', 'account_types'),
             'primary_key'   => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
