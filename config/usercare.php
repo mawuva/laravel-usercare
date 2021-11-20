@@ -27,4 +27,22 @@ return [
             ],
         ],
     ],
+
+    /*
+    | Manage account type config
+    |
+    | You may want to use multiple account type as : 
+    | Guest account, Premium account, etc.
+    */
+    'account_type'          => [
+        'enabled'           => true,
+        'name'              => 'Account Type',
+        'slug'              => 'account_type',
+        'model'             => Mawuekom\Usercare\Models\AccountType::class,
+
+        'table'             => [
+            'name'          => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE', 'account_types'),
+            'primary_key'   => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
+        ],
+    ],
 ];
