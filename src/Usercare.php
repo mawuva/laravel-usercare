@@ -38,7 +38,7 @@ class Usercare
      */
     public function getEntityById(string $entity_slug, $id, $inTrashed = false, $columns = ['*'])
     {
-        $key = resolve_key('usercare', config('usercare.user.slug'), $id, $inTrashed);
+        $key = resolve_key('usercare', config('usercare.'.$entity_slug.'.slug'), $id, $inTrashed);
 
         return $this ->getEntityByField($entity_slug, $key, $id, $inTrashed, $columns);
     }
