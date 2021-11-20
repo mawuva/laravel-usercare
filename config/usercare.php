@@ -16,6 +16,12 @@ return [
         */
         'id_route_param'    => 'id',
 
+        /**
+         * User's table congig
+         */
+        'table'             => [
+            'account_type_foreign_key'  => env('USERCARE_USERS_DATABASE_TABLE_ACCOUNT_TYPE_FOREIGN_KEY', 'account_type_id'),
+        ],
 
         /*
         | User's profile config
