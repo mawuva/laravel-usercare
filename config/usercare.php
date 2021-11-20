@@ -14,7 +14,7 @@ return [
 
         'profile'       => [
             'enabled'       => true,
-            'model'         => null,
+            'model'         => Mawuekom\Usercare\Models\Profile::class,
         
             /*
             | User's profile table config
