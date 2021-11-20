@@ -11,6 +11,7 @@ return [
     | Manage user config
     */
     'user'  => [
+        'slug'              => config('custom-user.user.slug'),
         /*
         | The name of the parameter you set in your web.php or api.php to get user's ID
         */
@@ -59,5 +60,16 @@ return [
             'name'          => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE', 'account_types'),
             'primary_key'   => env('USERCARE_ACCOUNT_TYPES_DATABASE_TABLE_PRIMARY_KEY', 'id'),
         ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Add uuid support
+    |--------------------------------------------------------------------------
+    */
+
+    'uuids'     => [
+        'enabled'   => config('custom-user.uuids.enabled'),
+        'column'    => config('custom-user.uuids.column')
     ],
 ];
