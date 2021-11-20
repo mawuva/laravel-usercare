@@ -17,7 +17,7 @@ use Mawuekom\Usercare\DataTransferObjects\UpdateUserPasswordDTO;
 use Mawuekom\Usercare\Repositories\UserRepository;
 
 class UserService
-{
+{   
     /**
      * @var \Mawuekom\Usercare\Repositories\UserRepository
      */
