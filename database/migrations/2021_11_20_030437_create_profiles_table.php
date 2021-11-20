@@ -34,9 +34,9 @@ class CreateProfilesTable extends Migration
                     $table->uuid($uuidColumn);
                 }
 
-                $table->string('location');
-                $table->text('bio')->nullable();
-                $table->text('description')->nullable();
+                $table->text('location');
+                $table->longText('bio')->nullable();
+                $table->longText('description')->nullable();
                 $table->unsignedBigInteger($profilesTableUserFK);
 
                 $table->foreign($profilesTableUserFK)

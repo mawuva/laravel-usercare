@@ -31,7 +31,7 @@ class CreateAccountTypesTable extends Migration
                 
                 $table->string('name');
                 $table->string('slug')->unique();
-                $table->string('description')->nullable();
+                $table->longText('description')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
             });
