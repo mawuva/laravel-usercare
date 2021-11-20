@@ -79,7 +79,7 @@ class StoreAccountTypeRequest extends FormRequestCustomizer
         return new AccountTypeDTO([
             'name'          => $this ->name,
             'slug'          => $this ->slug,
-            'descripton'    => $this ->description,
+            'description'   => $this ->description,
         ]);
     }
 
