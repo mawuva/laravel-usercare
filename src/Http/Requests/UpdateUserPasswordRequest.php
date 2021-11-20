@@ -42,8 +42,8 @@ class UpdateUserPasswordRequest extends FormRequestCustomizer
     public function rules(): array
     {
         return [
-            'old_password'  => 'string|min:6',
-            'new_password'  => 'string|min:6|confirmed'
+            'old_password'  => 'string|required|min:6',
+            'new_password'  => 'string|required|min:6|confirmed'
         ];
     }
 

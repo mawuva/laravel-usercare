@@ -240,7 +240,6 @@ class UserService
             throw new Exception("Password can not be update through this way. Use Mawuekom\\Usercare\\Services\\UserService::changePassword method instead");
         }
 
-
         $user = CustomUser::getUserById($id, false, [$field]);
         $user ->{$field} = $value;
         $user ->save();
