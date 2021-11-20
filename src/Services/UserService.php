@@ -7,12 +7,12 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Mawuekom\CustomUser\Actions\StoreUserAction;
 use Mawuekom\CustomUser\Actions\UpdatePasswordAction;
-use Mawuekom\CustomUser\Actions\UpdateUserAction;
-use Mawuekom\CustomUser\DataTransferObjects\StoreUserDTO;
-use Mawuekom\CustomUser\DataTransferObjects\UpdateUserDTO;
 use Mawuekom\CustomUser\Facades\CustomUser;
+use Mawuekom\Usercare\Actions\CreateUserAction;
+use Mawuekom\Usercare\Actions\UpdateUserDataAction;
+use Mawuekom\Usercare\DataTransferObjects\CreateUserDTO;
+use Mawuekom\Usercare\DataTransferObjects\UpdateUserDataDTO;
 use Mawuekom\Usercare\DataTransferObjects\UpdateUserPasswordDTO;
 use Mawuekom\Usercare\Repositories\UserRepository;
 
@@ -46,13 +46,13 @@ class UserService
     /**
      * Create new user account.
      *
-     * @param \Mawuekom\Usercare\DataTransferObjects\UserDTO $data
+     * @param \Mawuekom\Usercare\DataTransferObjects\CreateUserDTO $data
      *
      * @return array
      */
-    public function create(StoreUserDTO $storeUserDTO): array
+    public function create(CreateUserDTO $storeUserDTO): array
     {
-        $user = app(StoreUserAction::class) ->execute($storeUserDTO);
+        $user = app(CreateUserAction::class) ->execute($storeUserDTO);
 
         return success_response(trans('lang-resources::commons.messages.entity.created', [
                 'Entity' => trans_choice('usercare::entity.user', 1)
@@ -64,10 +64,11 @@ class UserService
      * 
      * @param boolean $paginate
      * @param array $columns
+     * @param array $relations
      * 
      * @return array
      */
-    public function getWithTrashed($paginate = true, $columns = ['*'])
+    public function getWithTrashed($paginate = true, $columns = ['*'], $relations = [])
     {
         $data = $this ->userRepository ->withTrashed();
 
@@ -90,14 +91,15 @@ class UserService
      * 
      * @param boolean $paginate
      * @param array $columns
+     * @param array $relations
      * 
      * @return array
      */
-    public function getWithoutTrashed($paginate = true, $columns = ['*'])
+    public function getWithoutTrashed($paginate = true, $columns = ['*'], $relations = [])
     {
-        $data = $this ->userRepository;
+        $data = $this ->userRepository ->with($relations);
 
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->all($columns);
+        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
 
         if ($results ->count() > 0) {
             return success_response(trans('lang-resources::messages.entity.list', [
@@ -115,10 +117,11 @@ class UserService
      * 
      * @param boolean $paginate
      * @param array $columns
+     * @param array $relations
      * 
      * @return array
      */
-    public function getOnlyTrashed($paginate = true, $columns = ['*'])
+    public function getOnlyTrashed($paginate = true, $columns = ['*'], $relations = [])
     {
         $data = $this ->userRepository ->onlyTrashed();
 
@@ -141,10 +144,11 @@ class UserService
      * @param string $searchTerm
      * @param boolean $paginate
      * @param array $columns
+     * @param array $relations
      * 
      * @return array
      */
-    public function search(string $searchTerm, $paginate = true, $columns = ['*'])
+    public function search(string $searchTerm, $paginate = true, $columns = ['*'], $relations = [])
     {
         $data = $this ->userRepository ->search($searchTerm, $columns);
 
@@ -214,13 +218,13 @@ class UserService
      * Update user data
      * 
      * @param int|string $id
-     * @param \Mawuekom\CustomUser\DataTransferObjects\UpdateUserDTO $updateUserDTO
+     * @param \Mawuekom\Usercare\DataTransferObjects\UpdateUserDataDTO $updateUserDTO
      * 
      * @return array
      */
-    public function update($id, UpdateUserDTO $updateUserDTO)
+    public function update($id, UpdateUserDataDTO $updateUserDTO)
     {
-        $user = app(UpdateUserAction::class) ->execute($id, $updateUserDTO);
+        $user = app(UpdateUserDataAction::class) ->execute($id, $updateUserDTO);
 
         return success_response(trans('lang-resources::commons.messages.completed.update'), $user);
     }
