@@ -1,6 +1,15 @@
 <?php
 
 return [
+    /*
+    | Slug separator
+    */
+    'separator' => '.',
+
+
+    /*
+    | Manage user config
+    */
     'user'  => [
         /*
         | The name of the parameter you set in your web.php or api.php to get user's ID
