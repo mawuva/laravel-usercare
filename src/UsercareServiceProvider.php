@@ -2,6 +2,7 @@
 
 namespace Mawuekom\Usercare;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class UsercareServiceProvider extends ServiceProvider
@@ -18,6 +19,8 @@ class UsercareServiceProvider extends ServiceProvider
          */
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'usercare');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        $this ->checkAccountTypeAvailability();
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -37,6 +40,18 @@ class UsercareServiceProvider extends ServiceProvider
         // Register the main class to use with the facade
         $this->app->singleton('usercare', function () {
             return new Usercare;
+        });
+    }
+
+    /**
+     * Check account type availability
+     *
+     * @return void
+     */
+    public function checkAccountTypeAvailability()
+    {
+        Blade::if('accountTypeEnabled', function () {
+            return config('usercare.account_type.enabled');
         });
     }
 }
