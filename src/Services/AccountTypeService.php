@@ -36,6 +36,16 @@ class AccountTypeService
     }
 
     /**
+     * Return repository instance
+     *
+     * @return \Mawuekom\Usercare\Repositories\AccountTypeRepository
+     */
+    public function fromRepo()
+    {
+        return $this->accountTypeRepository;
+    }
+
+    /**
      * Create new account type.
      *
      * @param \Mawuekom\Usercare\DataTransferObjects\AccountTypeDTO $accountTypeDTO
@@ -46,111 +56,9 @@ class AccountTypeService
     {
         $accountType = app(SaveAccountTypeAction::class) ->execute($accountTypeDTO);
 
-        return success_response(trans('lang-resources::commons.messages.entity.created', [
+        return success_response($accountType, trans('lang-resources::commons.messages.entity.created', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
-        ]), $accountType, 201);
-    }
-
-    /**
-     * Get all account types with trashed too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * 
-     * @return array
-     */
-    public function getWithTrashed($paginate = true, $columns = ['*'])
-    {
-        $data = $this ->accountTypeRepository ->withTrashed();
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(
-                trans('lang-resources::commons.messages.entity.list_with_deleted', [
-                    'Entity' => trans_choice('usercare::entity.account_type', 2)
-                ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_found_trashed'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Get all account type without trashed too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * 
-     * @return array
-     */
-    public function getWithoutTrashed($paginate = true, $columns = ['*'])
-    {
-        $data = $this ->accountTypeRepository;
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->all($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.list', [
-                'Entity' => trans_choice('usercare::entity.account_type', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_available'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Get only trashed account type too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * 
-     * @return array
-     */
-    public function getOnlyTrashed($paginate = true, $columns = ['*'])
-    {
-        $data = $this ->accountTypeRepository ->onlyTrashed();
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.deleted_list', [
-                'Entity' => trans_choice('usercare::entity.account_type', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_available'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Search account type
-     * 
-     * @param string $searchTerm
-     * @param boolean $paginate
-     * @param array $columns
-     * 
-     * @return array
-     */
-    public function search(string $searchTerm, $paginate = true, $columns = ['*'])
-    {
-        $data = $this ->accountTypeRepository ->search($searchTerm, $columns);
-
-        $results = ($paginate) ? $data ->paginate() : $data;
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.search_results', [
-                'Entity' => trans_choice('usercare::entity.account_type', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_found'), null, Response::HTTP_NO_CONTENT);
-        }
+        ]), Response::HTTP_CREATED);
     }
 
     /**
@@ -167,13 +75,13 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, $inTrashed, $columns);
 
         if (is_null($accountType)) {
-            return failure_response(trans('lang-resources::messages.resource.not_found'), null, Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response(trans('lang-resources::messages.entity.resource', [
+            return success_response($accountType, trans('lang-resources::messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.account_type', 1)
-            ]), $accountType);
+            ]));
         }
     }
 
@@ -192,13 +100,13 @@ class AccountTypeService
         $accountType = Usercare::getEntityByField($this ->slug, $field, $value, $inTrashed, $columns);
 
         if (is_null($accountType)) {
-            return failure_response(trans('lang-resources::messages.resource.not_found'), null, Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response(trans('lang-resources::messages.entity.resource', [
+            return success_response($accountType, trans('lang-resources::messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.account_type', 1)
-            ]), $accountType);
+            ]));
         }
     }
 
@@ -214,7 +122,7 @@ class AccountTypeService
     {
         $accountType = app(SaveAccountTypeAction::class) ->execute($accountTypeDTO, $id);
 
-        return success_response(trans('lang-resources::commons.messages.completed.update'), $accountType);
+        return success_response($accountType, trans('lang-resources::commons.messages.completed.update'));
     }
 
     /**
@@ -233,7 +141,7 @@ class AccountTypeService
         $accountType ->{$field} = $value;
         $accountType ->save();
 
-        return success_response(trans('lang-resources::commons.messages.completed.update'), $accountType);
+        return success_response($accountType, trans('lang-resources::commons.messages.completed.update'));
     }
 
     /**
@@ -248,9 +156,9 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, false, ['id']);
         $accountType ->delete();
 
-        return success_response(trans('lang-resources::messages.entity.deleted', [
+        return success_response($accountType, trans('lang-resources::messages.entity.deleted', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
-        ]), $accountType);
+        ]));
     }
 
     /**
@@ -265,9 +173,9 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
         $accountType ->restore();
 
-        return success_response(trans('lang-resources::messages.entity.restored', [
+        return success_response($accountType, trans('lang-resources::messages.entity.restored', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
-        ]), $accountType);
+        ]));
     }
 
     /**
@@ -282,7 +190,7 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
         $accountType ->forceDelete();
 
-        return success_response(trans('lang-resources::messages.entity.deleted_permanently', [
+        return success_response(null, trans('lang-resources::messages.entity.deleted_permanently', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
         ]));
     }

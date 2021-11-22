@@ -44,6 +44,16 @@ class UserService
     }
 
     /**
+     * Return repository instance
+     *
+     * @return \Mawuekom\Usercare\Repositories\UserRepository
+     */
+    public function fromRepo()
+    {
+        return $this->userRepository;
+    }
+
+    /**
      * Create new user account.
      *
      * @param \Mawuekom\Usercare\DataTransferObjects\CreateUserDTO $data
@@ -54,115 +64,9 @@ class UserService
     {
         $user = app(CreateUserAction::class) ->execute($storeUserDTO);
 
-        return success_response(trans('lang-resources::commons.messages.entity.created', [
+        return success_response($user, trans('lang-resources::commons.messages.entity.created', [
                 'Entity' => trans_choice('usercare::entity.user', 1)
-            ]), $user, 201);
-    }
-
-    /**
-     * Get all users with trashed too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * @param array $relations
-     * 
-     * @return array
-     */
-    public function getWithTrashed($paginate = true, $columns = ['*'], $relations = [])
-    {
-        $data = $this ->userRepository ->withTrashed();
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(
-                trans('lang-resources::commons.messages.entity.list_with_deleted', [
-                    'Entity' => trans_choice('usercare::entity.user', 2)
-                ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_found_trashed'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Get all users without trashed too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * @param array $relations
-     * 
-     * @return array
-     */
-    public function getWithoutTrashed($paginate = true, $columns = ['*'], $relations = [])
-    {
-        $data = $this ->userRepository ->with($relations);
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.list', [
-                'Entity' => trans_choice('usercare::entity.user', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_available'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Get only trashed users too
-     * 
-     * @param boolean $paginate
-     * @param array $columns
-     * @param array $relations
-     * 
-     * @return array
-     */
-    public function getOnlyTrashed($paginate = true, $columns = ['*'], $relations = [])
-    {
-        $data = $this ->userRepository ->onlyTrashed();
-
-        $results = ($paginate) ? $data ->paginate(null, $columns) : $data ->get($columns);
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.deleted_list', [
-                'Entity' => trans_choice('usercare::entity.user', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_available'), null, Response::HTTP_NO_CONTENT);
-        }
-    }
-
-    /**
-     * Search user
-     * 
-     * @param string $searchTerm
-     * @param boolean $paginate
-     * @param array $columns
-     * @param array $relations
-     * 
-     * @return array
-     */
-    public function search(string $searchTerm, $paginate = true, $columns = ['*'], $relations = [])
-    {
-        $data = $this ->userRepository ->search($searchTerm, $columns);
-
-        $results = ($paginate) ? $data ->paginate() : $data;
-
-        if ($results ->count() > 0) {
-            return success_response(trans('lang-resources::messages.entity.search_results', [
-                'Entity' => trans_choice('usercare::entity.user', 2)
-            ]), $results);
-        }
-
-        else {
-            return failure_response(trans('lang-resources::messages.records.not_found'), null, Response::HTTP_NO_CONTENT);
-        }
+            ]), Response::HTTP_CREATED);
     }
 
     /**
@@ -179,13 +83,13 @@ class UserService
         $user = CustomUser::getUserById($id, $inTrashed, $columns);
 
         if (is_null($user)) {
-            return failure_response(trans('lang-resources::messages.resource.not_found'), null, Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response(trans('lang-resources::messages.entity.resource', [
+            return success_response($user, trans('lang-resources::messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.user', 1)
-            ]), $user);
+            ]));
         }
     }
 
@@ -204,13 +108,13 @@ class UserService
         $user = CustomUser::getUserByField($field, $value, $inTrashed, $columns);
 
         if (is_null($user)) {
-            return failure_response(trans('lang-resources::messages.resource.not_found'), null, Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response(trans('lang-resources::messages.entity.resource', [
+            return success_response($user, trans('lang-resources::messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.user', 1)
-            ]), $user);
+            ]));
         }
     }
 
@@ -226,7 +130,7 @@ class UserService
     {
         $user = app(UpdateUserDataAction::class) ->execute($id, $updateUserDTO);
 
-        return success_response(trans('lang-resources::commons.messages.completed.update'), $user);
+        return success_response($user, trans('lang-resources::commons.messages.completed.update'));
     }
 
     /**
@@ -248,7 +152,7 @@ class UserService
         $user ->{$field} = $value;
         $user ->save();
 
-        return success_response(trans('lang-resources::commons.messages.completed.update'), $user);
+        return success_response($user, trans('lang-resources::commons.messages.completed.update'));
     }
 
     /**
@@ -272,7 +176,7 @@ class UserService
 
         app(UpdatePasswordAction::class) ->execute($user, $updateUserPasswordDTO ->new_password);
 
-        return success_response(trans('passauth::messages.password_changed'));
+        return success_response(null, trans('passauth::messages.password_changed'));
     }
 
     /**
@@ -292,9 +196,9 @@ class UserService
         
         $user ->delete();
 
-        return success_response(trans('lang-resources::messages.entity.deleted', [
+        return success_response($user, trans('lang-resources::messages.entity.deleted', [
             'Entity' => trans_choice('usercare::entity.user', 1)
-        ]), $user);
+        ]));
     }
 
     /**
@@ -309,9 +213,9 @@ class UserService
         $user = CustomUser::getUserById($id, true, ['id']);
         $user ->restore();
 
-        return success_response(trans('lang-resources::messages.entity.restored', [
+        return success_response($user, trans('lang-resources::messages.entity.restored', [
             'Entity' => trans_choice('usercare::entity.user', 1)
-        ]), $user);
+        ]));
     }
 
     /**
@@ -326,7 +230,7 @@ class UserService
         $user = CustomUser::getUserById($id, true, ['id']);
         $user ->forceDelete();
 
-        return success_response(trans('lang-resources::messages.entity.deleted_permanently', [
+        return success_response(null, trans('lang-resources::messages.entity.deleted_permanently', [
             'Entity' => trans_choice('usercare::entity.user', 1)
         ]));
     }
