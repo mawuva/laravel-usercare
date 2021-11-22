@@ -39,8 +39,8 @@ class CreateUserAction
             $user ->{get_attribute('gender', 'name')}  = $createUserDTO ->gender;
         }
 
-        if (get_attribute('agree_with_policy_and_terms', 'enabled') && $createUserDTO ->agree_with_policy_and_terms !== null) {
-            $user ->{get_attribute('agree_with_policy_and_terms', 'name')}  = now();
+        if (get_attribute('is_admin', 'enabled') && $createUserDTO ->is_admin !== null) {
+            $user ->{get_attribute('is_admin', 'name')}  = $createUserDTO ->gender;
         }
 
         if (config('usercare.account_type.enabled') && $createUserDTO ->account_type !== null) {

@@ -59,6 +59,7 @@ class UpdateUserRequest extends FormRequestCustomizer
             'phone_number'  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'gender'        => 'string|nullable',
             'account_type'  => 'integer|nullable',
+            'is_admin'      => 'integer|nullable',
         ];
 
         (!get_attribute('name', 'optional'))
@@ -101,6 +102,7 @@ class UpdateUserRequest extends FormRequestCustomizer
             'phone_number'  => $this ->phone_number,
             'gender'        => $this ->gender,
             'account_type'  => $this ->account_type,
+            'is_admin'      => $this ->is_admin,
         ]);
     }
 

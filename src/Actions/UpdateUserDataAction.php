@@ -35,6 +35,10 @@ class UpdateUserDataAction
             $user ->phone_number  = $updateUserDTO ->phone_number;
         }
 
+        if (get_attribute('is_admin', 'enabled') && $updateUserDTO ->is_admin !== null) {
+            $user ->{get_attribute('is_admin', 'name')}  = $updateUserDTO ->gender;
+        }
+
         if (get_attribute('gender', 'enabled') && $updateUserDTO ->gender !== null) {
             $user ->{get_attribute('gender', 'name')}  = $updateUserDTO ->gender;
         }

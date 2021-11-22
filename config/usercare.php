@@ -51,7 +51,7 @@ return [
     | Guest account, Premium account, etc.
     */
     'account_type'          => [
-        'enabled'           => true,
+        'enabled'           => false,
         'name'              => 'Account Type',
         'slug'              => 'account_type',
         'model'             => Mawuekom\Usercare\Models\AccountType::class,
