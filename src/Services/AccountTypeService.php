@@ -75,11 +75,11 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, $inTrashed, $columns);
 
         if (is_null($accountType)) {
-            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response($accountType, trans('lang-resources::messages.entity.resource', [
+            return success_response($accountType, trans('lang-resources::commons.messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.account_type', 1)
             ]));
         }
@@ -100,11 +100,11 @@ class AccountTypeService
         $accountType = Usercare::getEntityByField($this ->slug, $field, $value, $inTrashed, $columns);
 
         if (is_null($accountType)) {
-            return failure_response(null, trans('lang-resources::messages.resource.not_found'), Response::HTTP_NO_CONTENT);
+            return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
 
         else {
-            return success_response($accountType, trans('lang-resources::messages.entity.resource', [
+            return success_response($accountType, trans('lang-resources::commons.messages.entity.resource', [
                 'Entity' => trans_choice('usercare::entity.account_type', 1)
             ]));
         }
@@ -156,7 +156,7 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, false, ['id']);
         $accountType ->delete();
 
-        return success_response($accountType, trans('lang-resources::messages.entity.deleted', [
+        return success_response($accountType, trans('lang-resources::commons.messages.entity.deleted', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
         ]));
     }
@@ -173,7 +173,7 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
         $accountType ->restore();
 
-        return success_response($accountType, trans('lang-resources::messages.entity.restored', [
+        return success_response($accountType, trans('lang-resources::commons.messages.entity.restored', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
         ]));
     }
@@ -190,7 +190,7 @@ class AccountTypeService
         $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
         $accountType ->forceDelete();
 
-        return success_response(null, trans('lang-resources::messages.entity.deleted_permanently', [
+        return success_response(null, trans('lang-resources::commons.messages.entity.deleted_permanently', [
             'Entity' => trans_choice('usercare::entity.account_type', 1)
         ]));
     }
