@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'account_type'  => 'Account Type|Account Types',
-    'user'          => 'User|Users',
-    'user_profile'  => 'User Profile|User Profiles',
+    'account_type'  => 'Type de compte|Types de compte',
+    'user'          => 'Utilisateur|Utilisateurs',
+    'user_profile'  => 'Profil Utilisateur|Profils Utilisateur',
 ];
