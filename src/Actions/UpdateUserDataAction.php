@@ -36,7 +36,7 @@ class UpdateUserDataAction
         }
 
         if (get_attribute('is_admin', 'enabled') && $updateUserDTO ->is_admin !== null) {
-            $user ->{get_attribute('is_admin', 'name')}  = $updateUserDTO ->gender;
+            $user ->{get_attribute('is_admin', 'name')}  = $updateUserDTO ->is_admin;
         }
 
         if (get_attribute('gender', 'enabled') && $updateUserDTO ->gender !== null) {

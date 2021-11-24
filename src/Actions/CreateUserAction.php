@@ -40,7 +40,7 @@ class CreateUserAction
         }
 
         if (get_attribute('is_admin', 'enabled') && $createUserDTO ->is_admin !== null) {
-            $user ->{get_attribute('is_admin', 'name')}  = $createUserDTO ->gender;
+            $user ->{get_attribute('is_admin', 'name')}  = $createUserDTO ->is_admin;
         }
 
         if (config('usercare.account_type.enabled') && $createUserDTO ->account_type !== null) {
