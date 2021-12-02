@@ -18,9 +18,7 @@ class SaveAccountTypeAction
      */
     public function execute(AccountTypeDTO $accountTypeDTO, $id = null): Model
     {
-        $accountType = ($id !== null)
-                        ? Usercare::getEntityById(config('usercare.account_type.slug'), $id)
-                        : app(config('usercare.account_type.model'));
+        $accountType = data_helpers(config('usercare.account_type.model')) ->getModelInstance($id);
         
         $accountType ->name         = $accountTypeDTO ->name;
         $accountType ->slug         = $accountTypeDTO ->slug;
