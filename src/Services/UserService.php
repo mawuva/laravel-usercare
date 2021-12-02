@@ -82,6 +82,10 @@ class UserService
     {
         $user = CustomUser::getUserById($id, $inTrashed, $columns);
 
+        $user = data_helpers($this ->userRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow($columns);
+
         if (is_null($user)) {
             return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
         }
@@ -105,7 +109,8 @@ class UserService
      */
     public function getByField($field, $value = null, $inTrashed = false, $columns = ['*'])
     {
-        $user = CustomUser::getUserByField($field, $value, $inTrashed, $columns);
+        $user = data_helpers($this ->userRepository ->getModel(), [$field, $value])
+                        ->getDataRow($columns);
 
         if (is_null($user)) {
             return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
@@ -148,7 +153,10 @@ class UserService
             throw new Exception("Password can not be update through this way. Use Mawuekom\\Usercare\\Services\\UserService::changePassword method instead");
         }
 
-        $user = CustomUser::getUserById($id, false, [$field]);
+        $user = data_helpers($this ->userRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow([$field]);
+
         $user ->{$field} = $value;
         $user ->save();
 
@@ -165,7 +173,9 @@ class UserService
      */
     public function updatePassword($id, UpdateUserPasswordDTO $updateUserPasswordDTO)
     {
-        $user = CustomUser::getUserById($id, false, ['email', 'password']);
+        $user = data_helpers($this ->userRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow(['email', 'password']);
 
         if (!Hash::check($updateUserPasswordDTO ->old_password, $user ->password)) {
             throw ValidationException::withMessages([
@@ -176,7 +186,7 @@ class UserService
 
         app(UpdatePasswordAction::class) ->execute($user, $updateUserPasswordDTO ->new_password);
 
-        return success_response(null, trans('passauth::messages.password_changed'));
+        return success_response(null, trans('lang-resources::commons.messages.password_changed'));
     }
 
     /**
@@ -188,10 +198,12 @@ class UserService
      */
     public function delete($id)
     {
-        $user = CustomUser::getUserById($id, false, ['id']);
+        $user = data_helpers($this ->userRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow(['id']);
 
         if (Auth::check() && (Auth::user() ->id === $user ->id)) {
-            throw new Exception(trans('usercare::messages.can_not_delete_yourself'), Response::HTTP_FORBIDDEN);
+            throw new Exception(trans('lang-resources::commons.messages.can_not_delete_yourself'), Response::HTTP_FORBIDDEN);
         }
         
         $user ->delete();
@@ -210,8 +222,10 @@ class UserService
      */
     public function restore($id)
     {
-        $user = CustomUser::getUserById($id, true, ['id']);
-        $user ->restore();
+        $user = data_helpers($this ->userRepository ->getModel(), [], true)
+                        ->fromId($id)
+                        ->getDataRow(['id'])
+                        ->restore();
 
         return success_response($user, trans('lang-resources::commons.messages.entity.restored', [
             'Entity' => trans_choice('usercare::entity.user', 1)
@@ -227,8 +241,10 @@ class UserService
      */
     public function destroy($id)
     {
-        $user = CustomUser::getUserById($id, true, ['id']);
-        $user ->forceDelete();
+        $user = data_helpers($this ->userRepository ->getModel(), [], true)
+                        ->fromId($id)
+                        ->getDataRow(['id'])
+                        ->forceDelete();
 
         return success_response(null, trans('lang-resources::commons.messages.entity.deleted_permanently', [
             'Entity' => trans_choice('usercare::entity.user', 1)

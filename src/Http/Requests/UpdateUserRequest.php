@@ -45,7 +45,7 @@ class UpdateUserRequest extends FormRequestCustomizer
     {
         $usersTable = config('custom-user.user.table.name');
         $userIDRouteParam = $this ->route(config('usercare.user.id_route_param'));
-        $key = resolve_key('custom-user', config('custom-user.user.slug'), $userIDRouteParam);
+        $key = resolve_key(config('custom-user.user.model'), $userIDRouteParam);
 
         $rules = [
             'name'                          => ['string'],

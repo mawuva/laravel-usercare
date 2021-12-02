@@ -45,7 +45,7 @@ class UpdateAccountTypeRequest extends FormRequestCustomizer
     {
         $accountTypesTable = config('usercare.account_type.table.name');
         $accountTypeIDRouteParam = $this ->route(config('usercare.account_type.id_route_param'));
-        $key = resolve_key('usercare', config('usercare.account_type.slug'), $accountTypeIDRouteParam);
+        $key = resolve_key(config('usercare.account_type.model'), $accountTypeIDRouteParam);
 
         return [
             'name'          => 'required|string|max:255',

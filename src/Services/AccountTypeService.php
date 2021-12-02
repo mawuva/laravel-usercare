@@ -72,7 +72,9 @@ class AccountTypeService
      */
     public function getById($id, $inTrashed = false, $columns = ['*'])
     {
-        $accountType = Usercare::getEntityById($this ->slug, $id, $inTrashed, $columns);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel(), [], $inTrashed)
+                        ->fromId($id)
+                        ->getDataRow($columns);
 
         if (is_null($accountType)) {
             return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
@@ -97,7 +99,8 @@ class AccountTypeService
      */
     public function getByField($field, $value = null, $inTrashed = false, $columns = ['*'])
     {
-        $accountType = Usercare::getEntityByField($this ->slug, $field, $value, $inTrashed, $columns);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel(), [$field, $value], $inTrashed)
+                        ->getDataRow($columns);
 
         if (is_null($accountType)) {
             return failure_response(null, trans('lang-resources::commons.messages.resource.not_found'), Response::HTTP_NO_CONTENT);
@@ -136,7 +139,9 @@ class AccountTypeService
      */
     public function updateFieldValueById($id, string $field, string $value = null)
     {
-        $accountType = Usercare::getEntityById($this ->slug, $id, false, [$field]);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow([$field]);
 
         $accountType ->{$field} = $value;
         $accountType ->save();
@@ -153,7 +158,10 @@ class AccountTypeService
      */
     public function delete($id)
     {
-        $accountType = Usercare::getEntityById($this ->slug, $id, false, ['id']);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel())
+                        ->fromId($id)
+                        ->getDataRow(['id']);
+
         $accountType ->delete();
 
         return success_response($accountType, trans('lang-resources::commons.messages.entity.deleted', [
@@ -170,7 +178,10 @@ class AccountTypeService
      */
     public function restore($id)
     {
-        $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel(), [], true)
+                        ->fromId($id)
+                        ->getDataRow(['id']);
+
         $accountType ->restore();
 
         return success_response($accountType, trans('lang-resources::commons.messages.entity.restored', [
@@ -187,7 +198,10 @@ class AccountTypeService
      */
     public function destroy($id)
     {
-        $accountType = Usercare::getEntityById($this ->slug, $id, true, ['id']);
+        $accountType = data_helpers($this ->accountTypeRepository ->getModel(), [], true)
+                        ->fromId($id)
+                        ->getDataRow(['id']);
+                        
         $accountType ->forceDelete();
 
         return success_response(null, trans('lang-resources::commons.messages.entity.deleted_permanently', [
