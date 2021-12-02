@@ -51,7 +51,7 @@ return [
     | Guest account, Premium account, etc.
     */
     'account_type'          => [
-        'enabled'           => false,
+        'enabled'           => true,
         'name'              => 'Account Type',
         'slug'              => 'account_type',
         'model'             => Mawuekom\Usercare\Models\AccountType::class,
@@ -74,7 +74,7 @@ return [
     */
 
     'uuids'     => [
-        'enabled'   => config('custom-user.uuids.enabled'),
-        'column'    => config('custom-user.uuids.column')
+        'enabled'   => true,
+        'column'    => '_id'
     ],
 ];
