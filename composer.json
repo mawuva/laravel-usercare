@@ -27,7 +27,8 @@
         "mawuekom/laravel-lang-resources": "^1.2",
         "mawuekom/laravel-request-customizer": "^1.1",
         "spatie/data-transfer-object": "^2.8",
-        "mawuekom/laravel-model-uuid": "^2.0"
+        "mawuekom/laravel-model-uuid": "^2.0",
+        "mawuekom/laravel-custom-helpers": "^1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
