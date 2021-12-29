@@ -7,4 +7,5 @@ use Mawuekom\CustomUser\DataTransferObjects\StoreUserDTO;
 class CreateUserDTO extends StoreUserDTO
 {
     public string|null $account_type;
+    public string|null $role;
 }

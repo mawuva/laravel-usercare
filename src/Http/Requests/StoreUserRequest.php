@@ -56,6 +56,7 @@ class StoreUserRequest extends FormRequestCustomizer
             'first_name'    => 'string|nullable',
             'phone_number'  => 'string|nullable|regex:/^([0-9\s\-\+\(\)]*)$/',
             'account_type'  => 'integer|nullable',
+            'role'          => 'integer|nullable',
             'is_admin'      => 'integer|nullable',
         ];
 
@@ -100,6 +101,7 @@ class StoreUserRequest extends FormRequestCustomizer
             'phone_number'  => $this ->phone_number,
             'gender'        => $this ->gender,
             'account_type'  => $this ->account_type,
+            'role'  => $this ->role,
             'is_admin'      => $this ->is_admin,
         ]);
     }
