@@ -46,7 +46,7 @@ class StoreUserRequest extends FormRequestCustomizer
         $usersTable = config('custom-user.user.table.name');
 
         $rules = [
-            'name'                          => ['string'],
+            'name'                          => 'string|nullable',
 
             'email'                         => [
                 'required', 'string', 'email', Rule::unique($usersTable, 'email')
@@ -59,9 +59,6 @@ class StoreUserRequest extends FormRequestCustomizer
             'role'          => 'integer|nullable',
             'is_admin'      => 'integer|nullable',
         ];
-
-        (!get_attribute('name', 'optional'))
-            ?? array_push($rules['name'], 'required');
 
         (get_attribute('phone_number', 'unique'))
             ?? array_push($rules['phone_number'], Rule::unique($usersTable, 'phone_number'));
@@ -101,7 +98,7 @@ class StoreUserRequest extends FormRequestCustomizer
             'phone_number'  => $this ->phone_number,
             'gender'        => $this ->gender,
             'account_type'  => $this ->account_type,
-            'role'  => $this ->role,
+            'role'          => $this ->role,
             'is_admin'      => $this ->is_admin,
         ]);
     }
